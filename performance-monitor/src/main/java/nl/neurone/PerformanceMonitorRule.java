@@ -8,7 +8,7 @@ import org.junit.runners.model.Statement;
 
 public class PerformanceMonitorRule implements TestRule {
 
-    private PerformanceLoggerSingleton performanceLogger = PerformanceLoggerSingleton.getInstance();
+    private PerformanceLoggerContext performanceLogger = PerformanceLoggerContext.getInstance();
 
     @Override
     public Statement apply(Statement base, Description description) {
