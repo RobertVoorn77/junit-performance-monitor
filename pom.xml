@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>pom</packaging>
 	<modules>
-		<module>code-to-test</module>
 		<module>performance-monitor</module>
+		<module>code-to-test</module>
 	</modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
