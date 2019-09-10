@@ -2,4 +2,4 @@
 /docker/datadir
 code-to-test/target
 performance-monitor/target
-**/**.iml
+*.iml

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Data
 @Entity
@@ -17,11 +18,12 @@ public class PerformanceMeasure {
     private String testMethodName;
     private Long duration;
     @ToString.Exclude
+    @ManyToOne
     private TestRun testRun;
 
     // TODO: remove when JPA is used and an id is generated automatically
     public void setTestRun(TestRun testRun) {
-        this.testRun = testRun;
-        setId((long) testRun.getPerformanceMeasures().size());
+//        this.testRun = testRun;
+//        setId((long) testRun.getPerformanceMeasures().size());
     }
 }
