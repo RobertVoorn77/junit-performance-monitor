@@ -10,20 +10,30 @@ public class TestRunRepositoryMapImpl implements TestRunRepository<TestRun> {
     private final Map<Long, TestRun> testRunMap = new HashMap<>();
 
     {
-        PerformanceMeasure performanceMeasure1 = new PerformanceMeasure();
-        performanceMeasure1.setId(0L);
-        performanceMeasure1.setDuration(10L);
-        performanceMeasure1.setTestMethodName("testFastMethod(nl.neurone.TestClassToTest)");
-        PerformanceMeasure performanceMeasure2 = new PerformanceMeasure();
-        performanceMeasure1.setId(1L);
-        performanceMeasure2.setDuration(1000L);
-        performanceMeasure2.setTestMethodName("testSlowMethod(nl.neurone.TestClassToTest)");
-        TestRun run1 = new TestRun();
-        run1.setId(0L);
-        run1.getPerformanceMeasures().add(performanceMeasure1);
-        run1.getPerformanceMeasures().add(performanceMeasure2);
-        testRunMap.put(0L, run1);
+        createTestRun(0L,
+                createPerformanceMeasure(0L, 10L, "testFastMethodThrowsException(nl.neurone.TestClassToTest)"),
+                createPerformanceMeasure(1L,100L,"testSlowMethodThrowsException(nl.neurone.TestClassToTest)"));
+        createTestRun(1L,
+                createPerformanceMeasure(0L, 50L, "testFastMethod(nl.neurone.TestClassToTest)"),
+                createPerformanceMeasure(1L,5000L,"testSlowMethod(nl.neurone.TestClassToTest)"));
         System.out.println(testRunMap);
+    }
+
+    private void createTestRun(long id, PerformanceMeasure... performanceMeasures) {
+        TestRun run = new TestRun();
+        run.setId(id);
+        for (PerformanceMeasure performanceMeasure : performanceMeasures) {
+            run.getPerformanceMeasures().add(performanceMeasure);
+        }
+        testRunMap.put(id, run);
+    }
+
+    private PerformanceMeasure createPerformanceMeasure(long id, long duration, String testMethodName) {
+        PerformanceMeasure performanceMeasure1 = new PerformanceMeasure();
+        performanceMeasure1.setDuration(duration);
+        performanceMeasure1.setId(id);
+        performanceMeasure1.setTestMethodName(testMethodName);
+        return performanceMeasure1;
     }
 
     @Override
@@ -45,8 +55,7 @@ public class TestRunRepositoryMapImpl implements TestRunRepository<TestRun> {
             }
         }
 
-        double average = durations.stream().mapToLong(val -> val).average().orElse(0);
-        return average;
+        return durations.stream().mapToLong(val -> val).average().orElse(0);
     }
 
     private Long getNewId() {

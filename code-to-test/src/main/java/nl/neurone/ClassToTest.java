@@ -1,19 +1,20 @@
 package nl.neurone;
 
-public class ClassToTest {
+class ClassToTest {
 
-    public void fastMethod() {
+    void fastMethod() {
         sleep(50);
     }
 
-    public void slowMethod() {
-        sleep(5000);
+    void slowMethod() {
+        sleep(2500);
     }
 
     private void sleep(int millis) {
         try {
             Thread.sleep(millis);
-        } catch (InterruptedException e) {
+        } catch (Throwable e) {
+            System.out.println("catch 2");
             e.printStackTrace();
         }
     }
