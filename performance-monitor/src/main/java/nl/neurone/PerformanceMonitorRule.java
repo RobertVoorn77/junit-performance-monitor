@@ -2,7 +2,6 @@ package nl.neurone;
 
 import nl.neurone.model.PerformanceMeasure;
 import nl.neurone.model.TestRun;
-//import org.junit.AssumptionViolatedException;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -46,9 +45,12 @@ public class PerformanceMonitorRule implements TestRule {
 
                     long maxDuration = getMaxDuration(description);
                     if (maxDuration > 0) {
-                        System.out.println("Ja hoor, daar is ie dan ;-) --> " + maxDuration);
+                        System.out.println("Ja hoor, daar is ie dan ;-) --> maxDuration: " + maxDuration);
                         if (duration > maxDuration) {
-                            System.out.println("Dat duurt te lang, log het en geeft door als Failure?");
+                            System.out.println("Method duration exceeded the maximum of " + maxDuration);
+//                            throw new PerformanceRegressionException("Method duration exceeded the maximum of " + maxDuration);
+                            // TODO: figure out how to return a failure in the correct way so JUnit runner will
+                            //  correctly pick it up and report it
                         }
                     }
                     // If performance regression too great, fail the test!
@@ -59,13 +61,18 @@ public class PerformanceMonitorRule implements TestRule {
                         System.out.println("Duration: " + duration);
                     }
                     performanceExceptionThrown = duration > allowablePerformanceRegression;
-                    if (performanceExceptionThrown) { // TODO enable this at a later time when this is necessary, focus on MaxDuration annotation for now
+                    if (performanceExceptionThrown) {
                         System.out.println("throw because slower");
-                        throw new PerformanceRegressionException("Method was 20% slower than previous runs");  // TODO: make the percentage configurable
+//                            throw new PerformanceRegressionException("Method was 20% slower than previous runs");  // TODO: make the percentage configurable
+                        // TODO: figure out how to return a failure in the correct way so JUnit runner will
+                        //  correctly pick it up and report it
                     }
                 } catch (Exception e) {
+                    // attempt to correctly return an exception when performance demands are not met. I have not figured out to correctly pass this on to the JUnit runner
                     System.out.println("raar hoor....");
-                    throw new PerformanceRegressionException(e);
+//                    throw new PerformanceRegressionException(e);
+                    // TODO: figure out how to return a failure in the correct way so JUnit runner will
+                    //  correctly pick it up and report it
                 }
             }
 

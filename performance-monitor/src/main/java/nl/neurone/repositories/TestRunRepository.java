@@ -1,7 +1,10 @@
 package nl.neurone.repositories;
 
-public interface TestRunRepository<T> {
-    void save(T testRun);
+import nl.neurone.model.TestRun;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-    double getAverageDurationForMethod(String testMethodName);
+@Repository
+public interface TestRunRepository extends CrudRepository<TestRun, Long> {
+//    double getAverageDurationForMethod(String testMethodName);    TODO: Implement this and then use it in PerformanceLoggerContext class
 }
